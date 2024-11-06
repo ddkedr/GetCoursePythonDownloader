@@ -191,18 +191,43 @@ async def main(url, result_file, no_pre_download):
                         result.write(ts.read())
 
             print(f"Скачивание завершено. Результат здесь:\n{result_file}")
-            
-            if convert_to_mp4(result_file):
-                print("Конвертация успешно завершена.")
-            else:
-                print("Не удалось выполнить конвертацию после нескольких попыток.")
+
+# Комментируем конвертацию ts-файла в mp4. Требует наличия ffmpeg
+#            if convert_to_mp4(result_file):
+#                print("Конвертация успешно завершена.")
+#            else:
+#                print("Не удалось выполнить конвертацию после нескольких попыток.")
+
+def read_urls_from_file(filename='list.txt'):
+    urls = []
+    if os.path.exists(filename):
+        with open(filename, 'r') as file:
+            for line in file:
+                # Assuming each line contains URL and RESULT_FILE, separated by a space or tab.
+                parts = line.strip().split()
+                if len(parts) == 2:
+                    urls.append((parts[0], parts[1]))
+    return urls
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Download and process video segments.')
+
     parser.add_argument('-npd', '--no-pre-download', action='store_true', help='Пропустить предварительную загрузку размеров')
+
     args = parser.parse_args()
 
-    while True:
-        url = input("Введите ссылку на плей-лист: ")
-        result_file = input("Введите имя выходного файла: ")
-        asyncio.run(main(url, result_file, args.no_pre_download))
+    # Read URLs from the file if it exists
+    urls_from_file = read_urls_from_file()
+
+    if urls_from_file:
+        # If the list.txt file is present, process URLs from it
+        for url, result_file in urls_from_file:
+            print(f"Processing: {url} -> {result_file}")
+            asyncio.run(main(url, result_file, args.no_pre_download))
+    else:
+        # If no list.txt is found, fall back to manual input
+        while True:
+            url = input("Введите ссылку на плей-лист: ")
+            result_file = input("Введите имя выходного файла: ")
+            asyncio.run(main(url, result_file, args.no_pre_download))

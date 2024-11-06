@@ -1,0 +1,2 @@
+http://example.com/playlist1.txt result1.txt
+http://example.com/playlist2.txt result2.txt

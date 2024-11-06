@@ -20,16 +20,24 @@
 
 1. Клонируйте репозиторий:
    ```
-   git clone https://github.com/your-username/getcourse-video-downloader.git
-   cd getcourse-video-downloader
+   git clone https://github.com/ddkedr/GetCoursePythonDownloader.git
+   cd GetCoursePythonDownloader
    ```
 
-2. Установите необходимые библиотеки:
+2. Готовим окружение Python:
+   ```
+   sudo apt install python3-pip #Возможно и не надо
+   sudo apt install python3.12-venv
+   python3 -m venv video_downloader
+   source video_downloader/bin/activate
+   ```
+
+3. Установите необходимые библиотеки:
    ```
    pip install aiohttp tqdm
    ```
 
-3. Убедитесь, что FFmpeg установлен и доступен в системном PATH или находится в одной папке со скриптом.
+4. Если нужна конвертация в mp4 (непонятно, зачем), убедитесь, что FFmpeg установлен и доступен в системном PATH или находится в одной папке со скриптом.
 
 ## Использование
 
